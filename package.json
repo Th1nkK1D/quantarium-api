@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/Th1nkK1D/quantarium-api#readme",
   "dependencies": {
-    "koa": "^2.6.2"
+    "koa": "^2.6.2",
+    "koa-mount": "^4.0.0",
+    "koa-static": "^5.0.0",
+    "swagger-ui-dist": "^3.20.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",

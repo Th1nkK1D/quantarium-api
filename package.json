@@ -20,11 +20,13 @@
     "koa": "^2.6.2",
     "koa-mount": "^4.0.0",
     "koa-static": "^5.0.0",
+    "swagger-jsdoc": "^3.2.3",
     "swagger-ui-dist": "^3.20.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
     "@babel/plugin-transform-async-to-generator": "^7.1.0",
-    "@babel/register": "^7.0.0"
+    "@babel/register": "^7.0.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2"
   }
 }

@@ -1,37 +1,112 @@
+import Koa from 'koa'
+import Router from 'koa-router'
+import Logger from 'koa-logger'
+
+const api = new Koa()
+const router = new Router()
+
 /**
  * @swagger
  * definition:
- *   users:
- *     properties:
- *       name:
- *         type: string
- *       email:
- *         type: string
- *       age:
- *         type: integer
- *       sex:
- *         type: string
+ *  composer-state:
+ *    properties:
+ *      isCollapsed:
+ *        type: boolean
+ *      gates:
+ *        $ref: '#/definitions/gates'
+ *      measurement:
+ *        $ref: '#/definitions/measurement'
  */
 
 /**
  * @swagger
- * /api/users:
- *   get:
+ * definition:
+ *  gates:
+ *    type: array
+ *    items:
+ *      type: string 
+ */
+
+/**
+ * @swagger
+ * definition:
+ *  measurement:
+ *    properties:
+ *      batchSize:
+ *        type: number
+ *      result:
+ *        type: array
+ *        items:
+ *          type: number
+ */
+
+router.get('/', async (ctx, next) => {
+  await next()
+  ctx.body = 'Welcome to Quantarium Composer API'
+})
+
+/**
+ * @swagger
+ * /init:
+ *   post:
  *     tags:
- *       - users
- *     description: Returns all users
+ *       - Common
+ *     description: Initialize composer
  *     produces:
  *       - application/json
  *     responses:
  *       200:
- *         description: An array of users
+ *         description: Composer state
  *         schema:
- *           $ref: '#/definitions/users'
+ *           $ref: '#/definitions/composer-state'
  */
-
-async function api(ctx, next) {
+router.post('/init', async (ctx, next) => {
   await next()
-  ctx.body = 'Hello'
-}
+  ctx.body = {}
+})
+
+/**
+ * @swagger
+ * /state:
+ *   get:
+ *     tags:
+ *       - Common
+ *     description: Get composer state
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: Composer state
+ *         schema:
+ *           $ref: '#/definitions/composer-state'
+ */
+router.get('/state', async (ctx, next) => {
+  await next()
+  ctx.body = {}
+})
+
+/**
+ * @swagger
+ * /reset:
+ *   post:
+ *     tags:
+ *       - Common
+ *     description: Reset composer state
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: Composer state
+ *         schema:
+ *           $ref: '#/definitions/composer-state'
+ */
+router.post('/reset', async (ctx, next) => {
+  await next()
+  ctx.body = {}
+})
+
+api.use(Logger())
+api.use(router.routes())
+api.use(router.allowedMethods())
 
 export default api

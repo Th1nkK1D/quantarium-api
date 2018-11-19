@@ -3,12 +3,12 @@ import swaggerJSDoc from 'swagger-jsdoc'
 const swaggerOptions = {
   swaggerDefinition: {
     info: {
-      title: 'Node Swagger API',
+      title: 'Quantarium Composer API',
       version: '1.0.0',
-      description: 'Demonstrating how to describe a RESTful API with Swagger',
+      description: 'Server-side API for Quantarium, an interactive quantum computing exhibition',
     },
     host: 'localhost:3000',
-    basePath: '/',
+    basePath: '/api',
   },
   apis: ['./app/api.js'],
 }

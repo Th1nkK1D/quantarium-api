@@ -1,4 +1,4 @@
-const swaggerJSDoc = require('swagger-jsdoc')
+import swaggerJSDoc from 'swagger-jsdoc'
 
 const swaggerOptions = {
   swaggerDefinition: {
@@ -16,8 +16,8 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJSDoc(swaggerOptions)
 
 async function serveSwaggerSpec(ctx, next) {
-  await next();
-  ctx.body = swaggerSpec;
+  await next()
+  ctx.body = swaggerSpec
 }
 
 export default serveSwaggerSpec

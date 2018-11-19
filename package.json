@@ -29,6 +29,7 @@
     "@babel/plugin-transform-async-to-generator": "^7.1.0",
     "@babel/register": "^7.0.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "eslint": "^5.9.0",
     "nodemon": "^1.18.6"
   }
 }

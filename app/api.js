@@ -30,8 +30,8 @@
  */
 
 async function api(ctx, next) {
-  await next();
-  ctx.body = 'Hello';
+  await next()
+  ctx.body = 'Hello'
 }
 
 export default api

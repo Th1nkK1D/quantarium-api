@@ -88,8 +88,11 @@ router.get('/', async (ctx, next) => {
  */
 router.get('/state', async (ctx, next) => {
   await next()
+
   ctx.status = 200
   ctx.body = q.getQubitSummary()
+
+  console.log(q.getQubitSummary())
 })
 
 /**
@@ -112,6 +115,7 @@ router.post('/reset', async (ctx, next) => {
   
   ctx.status = 200
   ctx.body = q.reset()
+  
 })
 
 /**
@@ -182,6 +186,8 @@ router.put('/gate/:gateSymbol', async (ctx, next) => {
       ctx.status = 200
       ctx.body = opRes
     }
+
+    console.log(opRes)
   }
 
 })
@@ -214,6 +220,7 @@ router.delete('/gate/', async (ctx, next) => {
     ctx.body = opRes
   }
 
+  console.log(opRes)
 })
 
 /**
@@ -244,6 +251,7 @@ router.post('/measure/:batchSize', async (ctx, next) => {
     ctx.body = opRes
   }
 
+  console.log(opRes)
 })
 
 /**
@@ -274,6 +282,7 @@ router.post('/unmeasure/', async (ctx, next) => {
     ctx.body = opRes
   }
 
+  console.log(opRes)
 })
 
 api.use(cors())

@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Th1nkK1D/quantarium-api#readme",
   "dependencies": {
+    "@koa/cors": "^2.2.2",
     "koa": "^2.6.2",
     "koa-logger": "^3.2.0",
     "koa-mount": "^4.0.0",

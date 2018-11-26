@@ -1,6 +1,7 @@
 import Koa from 'koa'
 import Router from 'koa-router'
 import Logger from 'koa-logger'
+import cors from '@koa/cors'
 
 import { Qubit, BasicGate } from '../../quantarium-qsim/lib'
 
@@ -187,7 +188,7 @@ router.put('/gate/:gateSymbol', async (ctx, next) => {
 
 /**
  * @swagger
- * /gate/{gate-symbol}:
+ * /gate/:
  *   delete:
  *     tags:
  *       - Gate Operation
@@ -275,6 +276,7 @@ router.post('/unmeasure/', async (ctx, next) => {
 
 })
 
+api.use(cors())
 api.use(Logger())
 api.use(router.routes())
 api.use(router.allowedMethods())

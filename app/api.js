@@ -30,6 +30,8 @@ function getErrorResBody(msg) {
 *           $ref: '#/definitions/state'
  *      gates:
  *        $ref: '#/definitions/gates'
+ *      measurement:
+ *        $ref: '#/definitions/measurement'
  */
 
 /**
@@ -145,10 +147,14 @@ router.get('/gate/:gateSymbol', async (ctx, next) => {
     ctx.status = 400
     ctx.body = getErrorResBody('Qubit is collapsed')
   } else {
+    const opRes = q.calculateOperation(BasicGate[gate].operation).map(z => z.toString())
+
     ctx.status = 200
     ctx.body = {
-      state: q.calculateOperation(BasicGate[gate].operation).map(z => z.toString())
+      state: opRes
     }
+
+    console.log(opRes)
   }
 
 })
@@ -241,7 +247,7 @@ router.delete('/gate/', async (ctx, next) => {
 router.post('/measure/:batchSize', async (ctx, next) => {
   await next()
 
-  const opRes = q.measure(ctx.params.batchSize)
+  const opRes = q.measure(parseInt(ctx.params.batchSize))
 
   if (!opRes) {
     ctx.status = 400

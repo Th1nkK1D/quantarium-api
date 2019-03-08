@@ -6,6 +6,7 @@ import SwaggerUI from 'swagger-ui-dist'
 
 import serveSwaggerSpec from './specProvider'
 import api from './api'
+import { io } from './socket'
 
 const pathToSwaggerUi = SwaggerUI.absolutePath()
 
@@ -25,8 +26,10 @@ fs.writeFile(`${pathToSwaggerUi}/index.html`, swaggerIndex, err => {
 // Init Koa app
 const app = new Koa()
 
+io.attach(app)
+
 app.use(mount(SPEC_PATH, serveSwaggerSpec))
-app.use(mount('/', serve(pathToSwaggerUi)))
+app.use(mount('/doc', serve(pathToSwaggerUi)))
 app.use(mount('/api', api))
 
 app.listen(3000)

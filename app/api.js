@@ -3,7 +3,9 @@ import Router from 'koa-router'
 import Logger from 'koa-logger'
 import cors from '@koa/cors'
 
-import { Qubit, BasicGate } from '../../quantarium-qsim/lib'
+import { socketEmitter } from './socket'
+
+import { Qubit, BasicGate, normalizeState } from '../../quantarium-qsim/lib'
 
 const api = new Koa()
 const router = new Router()
@@ -92,9 +94,12 @@ router.get('/state', async (ctx, next) => {
   await next()
 
   ctx.status = 200
-  ctx.body = q.getQubitSummary()
+  const qsum = q.getQubitSummary()
+  ctx.body = qsum
 
-  console.log(q.getQubitSummary())
+  console.log(qsum)
+
+  // socketEmitter('event', normalizeState(q.getCurrentState()).sphericalCoord)
 })
 
 /**
@@ -154,7 +159,8 @@ router.get('/gate/:gateSymbol', async (ctx, next) => {
       state: opRes
     }
 
-    console.log(opRes)
+    console.log(q.getCurrentState())
+    socketEmitter('previewGate', normalizeState(opRes).sphericalCoord)
   }
 
 })
@@ -194,6 +200,8 @@ router.put('/gate/:gateSymbol', async (ctx, next) => {
     }
 
     console.log(opRes)
+
+    socketEmitter('applyGate', normalizeState(q.getCurrentState()).sphericalCoord)
   }
 
 })

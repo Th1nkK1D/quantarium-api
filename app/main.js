@@ -29,7 +29,7 @@ const app = new Koa()
 io.attach(app)
 
 app.use(mount(SPEC_PATH, serveSwaggerSpec))
-app.use(mount('/doc', serve(pathToSwaggerUi)))
+app.use(mount('/', serve(pathToSwaggerUi)))
 app.use(mount('/api', api))
 
 app.listen(3000)

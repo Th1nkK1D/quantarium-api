@@ -26,7 +26,7 @@
     "koa-socket-2": "^1.0.17",
     "koa-static": "^5.0.0",
     "swagger-jsdoc": "^3.2.3",
-    "swagger-ui-dist": "^3.20.0"
+    "swagger-ui-dist": "^3.21.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",

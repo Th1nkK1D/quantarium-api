@@ -5,7 +5,7 @@ import cors from '@koa/cors'
 
 import { socketEmitter } from './socket'
 
-import { Qubit, BasicGate, getSphericalCoordinate } from '../../quantarium-qsim/lib'
+import { Qubit, BasicGate, getSphericalCoordinate, checkSameState } from '../../quantarium-qsim/lib'
 
 const api = new Koa()
 const router = new Router()
@@ -298,6 +298,40 @@ router.post('/unmeasure/', async (ctx, next) => {
   }
 
   console.log(opRes)
+})
+
+/**
+ * @swagger
+ * /compare/{state-1}/{state-2}:
+ *   get:
+ *     tags:
+ *       - Helpers
+ *     description: Compare 2 states
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: Comparation result
+ *         schema:
+ *          properties:
+ *           result:
+ *             type: boolean
+ */
+router.get('/compare/:q1/:q2', async (ctx, next) => {
+  await next()
+
+  if (!ctx.params.q1 || !ctx.params.q2) {
+    ctx.status = 400
+    ctx.body = getErrorResBody('Invalid parameters')
+  } else {
+    const q1 = ctx.params.q1.split(',')
+    const q2 = ctx.params.q2.split(',')
+
+    ctx.status = 200
+    ctx.body = {
+      result: checkSameState(q1, q2)
+    }
+  }
 })
 
 api.use(cors())

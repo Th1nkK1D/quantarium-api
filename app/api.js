@@ -5,7 +5,7 @@ import cors from '@koa/cors'
 
 import { socketEmitter } from './socket'
 
-import { Qubit, BasicGate, normalizeState } from '../../quantarium-qsim/lib'
+import { Qubit, BasicGate, getSphericalCoordinate } from '../../quantarium-qsim/lib'
 
 const api = new Koa()
 const router = new Router()
@@ -98,8 +98,6 @@ router.get('/state', async (ctx, next) => {
   ctx.body = qsum
 
   console.log(qsum)
-
-  // socketEmitter('event', normalizeState(q.getCurrentState()).sphericalCoord)
 })
 
 /**
@@ -122,7 +120,8 @@ router.post('/reset', async (ctx, next) => {
   
   ctx.status = 200
   ctx.body = q.reset()
-  
+
+  socketEmitter('reset')
 })
 
 /**
@@ -159,8 +158,9 @@ router.get('/gate/:gateSymbol', async (ctx, next) => {
       state: opRes
     }
 
-    console.log(q.getCurrentState())
-    socketEmitter('previewGate', normalizeState(opRes).sphericalCoord)
+    console.log(opRes)
+
+    socketEmitter('previewGate', getSphericalCoordinate(opRes))
   }
 
 })
@@ -201,7 +201,7 @@ router.put('/gate/:gateSymbol', async (ctx, next) => {
 
     console.log(opRes)
 
-    socketEmitter('applyGate', normalizeState(q.getCurrentState()).sphericalCoord)
+    socketEmitter('applyGate', getSphericalCoordinate(q.getCurrentState()))
   }
 
 })
@@ -235,6 +235,7 @@ router.delete('/gate/', async (ctx, next) => {
   }
 
   console.log(opRes)
+  socketEmitter('applyGate', getSphericalCoordinate(q.getCurrentState()))
 })
 
 /**

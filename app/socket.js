@@ -11,9 +11,4 @@ io.on('connection', () => {
   socketEmitter('event', 'Hi, Connected to socket IO')
 })
 
-io.on('message', (ctx, data) => {
-  console.log('client sent data to message endpoint', data)
-})
-
-
 export { io, socketEmitter }

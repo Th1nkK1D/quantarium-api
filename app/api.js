@@ -5,7 +5,7 @@ import cors from '@koa/cors'
 
 import { socketEmitter } from './socket'
 
-import { Qubit, BasicGate, getSphericalCoordinate, checkSameState } from '../../quantarium-qsim/lib'
+import { Qubit, BasicGate, getSphericalCoordinate, checkSameState } from '../../qsim/lib'
 
 const api = new Koa()
 const router = new Router()

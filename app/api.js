@@ -302,10 +302,73 @@ router.post('/unmeasure/', async (ctx, next) => {
 
 /**
  * @swagger
+ * /marker/{state-1}:
+ *   put:
+ *     tags:
+ *       - Challenge
+ *     description: Add marker
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: Operation result
+ *         schema:
+ *          properties:
+ *           result:
+ *             type: boolean
+ */
+router.put('/marker/:q', async (ctx, next) => {
+  await next()
+
+  if (!ctx.params.q) {
+    ctx.status = 400
+    ctx.body = getErrorResBody('Invalid parameters')
+  } else {
+    const q = ctx.params.q.split(',')
+
+    socketEmitter('challengeMark', getSphericalCoordinate(q))
+
+    ctx.status = 200
+    ctx.body = {
+      result: true
+    }
+  }
+})
+
+/**
+ * @swagger
+ * /marker:
+ *   delete:
+ *     tags:
+ *       - Challenge
+ *     description: Remove marker
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: Operation result
+ *         schema:
+ *          properties:
+ *           result:
+ *             type: boolean
+ */
+router.delete('/marker/', async (ctx, next) => {
+  await next()
+
+  socketEmitter('removeMark')
+
+  ctx.status = 200
+  ctx.body = {
+    result: true
+  }
+})
+
+/**
+ * @swagger
  * /compare/{state-1}/{state-2}:
  *   get:
  *     tags:
- *       - Helpers
+ *       - Challenge
  *     description: Compare 2 states
  *     produces:
  *       - application/json

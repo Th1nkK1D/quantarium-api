@@ -397,6 +397,68 @@ router.get('/compare/:q1/:q2', async (ctx, next) => {
   }
 })
 
+/**
+ * @swagger
+ * /cutscene/{name}:
+ *   put:
+ *     tags:
+ *       - Cutscene
+ *     description: Run specific cutscene
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: Operation result
+ *         schema:
+ *          properties:
+ *           result:
+ *             type: boolean
+ */
+router.post('/cutscene/:name', async (ctx, next) => {
+  await next()
+
+  if (!ctx.params.name) {
+    ctx.status = 400
+    ctx.body = getErrorResBody('Invalid parameters')
+  } else {
+    socketEmitter(ctx.params.name)
+
+    ctx.status = 200
+    ctx.body = {
+      result: true
+    }
+  }
+})
+
+/**
+ * @swagger
+ * /cutscene/:
+ *   delete:
+ *     tags:
+ *       - Cutscene
+ *     description: Clear current cutscene
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: Operation result
+ *         schema:
+ *          properties:
+ *           result:
+ *             type: boolean
+ */
+router.delete('/cutscene/', async (ctx, next) => {
+  await next()
+
+  socketEmitter('reset')
+  socketEmitter('applyGate', getSphericalCoordinate(q.getCurrentState()))
+
+  ctx.status = 200
+  ctx.body = {
+    result: true
+  }
+})
+
 api.use(cors())
 api.use(Logger())
 api.use(router.routes())
